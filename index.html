@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Glance — Visual Data Extraction for Windows</title>
+  
+  <!-- Lemon Squeezy Library & Dark Mode Initialization -->
+  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+  <script>
+    window.createLemonSqueezy = function () {
+      LemonSqueezy.Setup({
+        dark: true,
+        eventHandler: (data) => {
+          console.log('Lemon Squeezy event:', data);
+        }
+      });
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card-bg: #181b24;
+      --card-border: #262b3a;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0 1.5rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+    }
+
+    .logo-dot {
+      width: 12px;
+      height: 12px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 5rem 0 3rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      line-height: 1.15;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: #000;
+      padding: 0.9rem 2.2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.2s ease, transform 0.1s ease;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .cta-btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Features Grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 4rem 0;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Pricing Section */
+    .pricing {
+      text-align: center;
+      padding: 4rem 0;
+    }
+
+    .pricing-card {
+      background-color: var(--card-bg);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 16px;
+      max-width: 440px;
+      margin: 2rem auto 0;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 1rem 0;
+    }
+
+    .price span {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .pricing-list {
+      list-style: none;
+      text-align: left;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .pricing-list li {
+      padding: 0.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .pricing-list li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: bold;
+      margin-right: 0.75rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 2.5rem 0;
+      margin-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">
+        <div class="logo-dot"></div>
+        AI Glance
+      </div>
+      <a href="https://glance.lemonsqueezy.com/checkout/buy/73992046-f38d-41d7-8ceb-43d2b6be1d81?embed=1&dark=1&button_color=%23f59e0b" class="cta-btn lemonsqueezy-button" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Get License</a>
+    </nav>
+
+    <header class="hero">
+      <div class="badge">Windows Desktop Utility</div>
+      <h1>Extract Structured Data from Any Screen in Seconds</h1>
+      <p>Transform tables, invoices, reports, and unstructured visual data directly into clean JSON, CSV, and Table formats with a single hotkey.</p>
+      <a href="https://glance.lemonsqueezy.com/checkout/buy/73992046-f38d-41d7-8ceb-43d2b6be1d81?embed=1&dark=1&button_color=%23f59e0b" class="cta-btn lemonsqueezy-button">Start Subscription</a>
+    </header>
+
+    <section class="features">
+      <div class="feature-card">
+        <h3>Instant OCR & Vision</h3>
+        <p>Press <code>Ctrl + Shift + Space</code> anywhere in Windows to trigger intelligent screen analysis and instant data extraction.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Multi-Format Export</h3>
+        <p>Seamlessly copy structured output into interactive Tables, CSV spreadsheets, or developer-ready JSON objects.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Native & Lightweight</h3>
+        <p>Runs quietly in the Windows system tray with zero background overhead until invoked.</p>
+      </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+      <h2>Simple, Transparent Pricing</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem;">One license for unlimited on-screen data conversions.</p>
+
+      <div class="pricing-card">
+        <h3>Professional License</h3>
+        <div class="price">$79.99 <span>/ month</span></div>
+        <ul class="pricing-list">
+          <li>Unlimited visual data extractions</li>
+          <li>JSON, CSV & Table format conversions</li>
+          <li>System tray integration & instant hotkey</li>
+          <li>Automatic updates & customer support</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="https://glance.lemonsqueezy.com/checkout/buy/73992046-f38d-41d7-8ceb-43d2b6be1d81?embed=1&dark=1&button_color=%23f59e0b" class="cta-btn lemonsqueezy-button" style="width: 100%;">Subscribe Now</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 AI Glance. All rights reserved.</div>
+      <div>
+        <a href="Mailto:mumin007673.com">Contact Support</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
